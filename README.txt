@@ -65,6 +65,11 @@ Author: Alchemist YOHEY
 【ダウンロード】
 最新バージョンはこちらから取得できます:  
 👉 [LongMix Music Splitter for Mac – Releases](https://github.com/AlchemistYOHEY/LongMixMusicSplitter/releases/latest)
+---------------------------------
+【謝辞】
+このツールのコード生成には ChatGPT を活用しました。
+要件定義・調整・テストは Alchemist YOHEY が行っています。
+
 
 
 ==============================
@@ -135,3 +140,7 @@ Author: Alchemist YOHEY
 ## Download
 Get the latest version here:  
 👉 [LongMix Music Splitter for Mac – Releases](https://github.com/AlchemistYOHEY/LongMixMusicSplitter/releases/latest)
+---------------------------------
+## Acknowledgement
+This project was developed with the help of ChatGPT.
+Requirements, adjustments, and testing were done by Alchemist YOHEY.
