@@ -1,114 +1,100 @@
 # LongMix Music Splitter for Mac  
 by Alchemist YOHEY  
+**Version: v1.2.2**
 
-![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)  
-![Platform: macOS](https://img.shields.io/badge/Platform-macOS-lightgrey.svg)  
-![Language: Python3](https://img.shields.io/badge/Language-Python3-blue.svg)  
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Platform: macOS](https://img.shields.io/badge/Platform-macOS-lightgrey.svg)
+![Language: Python3](https://img.shields.io/badge/Language-Python3-blue.svg)
 
 ---
 
 ## 概要
-Apple iCloudミュージックの要件:  
-- 1ファイル 200MB 未満  
-- ビットレート 96kbps 以上  
-- 推奨: AAC / 44.1kHz / ステレオ  
+Apple iCloudミュージックの要件:
+- 1ファイル 200MB 未満
+- ビットレート 96kbps 以上
+- 推奨: AAC / 44.1kHz / ステレオ
 
-この要件を満たさない長時間音源（パーティー用ミックス等）は iCloud にアップされず、  
-iPhoneやMacに同期されません。本ツールはこの要件を満たすように音声ファイルを  
-自動で変換・分割するために作りました。  
+この要件を満たさない長時間音源（パーティー用ミックス等）は iCloud にアップされず、iPhoneやMacに同期されません。本ツールはこの要件を満たすように音声ファイルを**自動で変換・分割**します。
 
-⚠️ 注意: 本ツールは **Mac専用** です。Windowsでは動作しません。  
-※本プロジェクトは **Apple Inc. とは一切関係がなく、承認・提携・支援を受けていません**。  
-「Apple」「iCloud」「iPhone」「Mac」は Apple Inc. の商標です。記載は説明目的のみです。  
+> 注意: 本ツールは **Mac専用**（Windows不可）。  
+> 免責: 本プロジェクトは **Apple Inc. と無関係**（非提携・非承認・非支援）。  
+> “Apple”“iCloud”“iPhone”“Mac” は Apple Inc. の商標（説明目的の記載）。
 
 ---
 
 ## フォルダ構成
 - `input/` : 音源を入れるフォルダ  
 - `longmix_music_splitter.py` : 本体スクリプト  
-- `output/` : 変換結果が書き出されるフォルダ  
-- `README.md` : この説明  
+- `output/` : 変換結果の出力先  
+- `README.txt` : 配布zip用テキスト版  
+- `README.md` : GitHub表示用（このファイル）  
 - `run.command` : 起動用（ダブルクリック）  
 
 ---
 
 ## 使い方
-1. **`run.command` をダブルクリック** → ターミナルが起動します。  
+1. **`run.command` をダブルクリック** → ターミナルが起動。
 
    ### 初回起動時の注意（Gatekeeper）
-   本ツールは開発者署名を行っていないため、初回にダブルクリックすると  
-   「開けませんでした」という警告が出ることがあります。  
+   未署名のため初回は「開けませんでした」と警告される場合あり。  
+   許可手順:
+   a)  > システム設定 > プライバシーとセキュリティ  
+   b) 画面下部の「“run.command” は開けませんでした」→ **[このまま開く]**  
+   c) 確認ダイアログで **[開く]**  
+   → 2回目以降は通常のダブルクリックで起動可。
 
-   その場合は以下の手順で許可してください:  
-   a)  > システム設定 > プライバシーとセキュリティ を開く  
-   b) 画面下部に「“run.command” は開けませんでした」と表示されるので [このまま開く] をクリック  
-   c) 続けて表示されるダイアログで [開く] を選択  
-   → これで次回以降は通常通りダブルクリックで起動できます。  
-
-2. **ffmpeg / ffprobe が無い場合、質問が出ます:**  
+2. **ffmpeg / ffprobe が無い場合はプロンプト**  
    「導入しますか？ (y/N)」  
-   - y + Enter → Homebrew と ffmpeg を自動導入  
-   - N → 終了（手動で `brew install ffmpeg` が必要）  
+   - `y` + Enter → Homebrew と ffmpeg を自動導入  
+   - `N` → 終了（手動で `brew install ffmpeg` が必要）
 
-3. **input フォルダに音源を入れて `run.command` を再実行**  
-   → output に `.m4a` が生成されます。  
+3. **`input/` に音源を入れて `run.command` を再実行** → `output/` に `.m4a` が生成。
 
 ---
 
 ## 仕様
 - 出力: AAC `.m4a` / 44.1kHz / ステレオ  
-- サイズ: 自動で 200MB 未満（下限112kbps）  
-- 分割:  
+- サイズ: 自動で 200MB 未満（下限 112 kbps）  
+- 分割:
   - 2時間未満 → 単一ファイル  
-  - 2時間以上 → 約90分ごとに分割（無音を優先、無ければ強制分割）  
-- メタデータ / アートワーク保持（可能な範囲）  
-- 分割時: ファイル名に `_part1/_part2/...`、タイトルに `(Part i)` を付与  
-  → `disc` / `track` に i/N を設定  
+  - 2時間以上 → 約90分ごと（近傍の無音を優先、無ければ強制分割）  
+- メタデータ/アートワーク保持（可能な範囲）  
+- 分割時: ファイル名 `_part1/_part2/...`、タイトルに `(Part i)`、`disc/track = i/N`
 
 ---
 
 ## 既存ツールとの比較
-- **Magic Cutter**: 無音検出で自動分割は可能だが、iCloudミュージックのサイズ/フォーマット制限に最適化されていない。  
-- **Audacity**: 高機能なオーディオエディタ。手動で分割できるが、ユーザーの手間が多くフォーマット調整も必要。  
-- **Mp3splt**: 無音検出対応のCLIベース分割ツール。ただし iCloud 用の制約を考慮した機能はない。  
-- **LongMix Music Splitter for Mac**: iCloud対応ファイル（200MB未満、AAC/44.1kHz/ステレオ）を自動生成。  
-  約90分付近の無音で自動分割し、メタデータも保持。  
-
----
-
-## 実行の流れ
-- ダブルクリック → ターミナルでログ表示  
-- ffmpeg が無ければ y/N プロンプト → y で自動インストール  
-- 変換ログが流れ、終了時に「キーを押すと閉じます…」  
-- input → output で完結（Mac専用）  
+- **Magic Cutter**: 無音分割は可能だが、iCloudのサイズ/フォーマット制約に最適化されていない。  
+- **Audacity**: 高機能だが手動操作と形式調整が必要。  
+- **Mp3splt**: CLIで無音分割可。ただし iCloud 制約の自動調整なし。  
+- **LongMix Music Splitter for Mac**: iCloud向け（<200MB, AAC/44.1kHz/ステレオ）を自動生成。約90分付近の無音で自動分割、メタ保持。
 
 ---
 
 ## ダウンロード
-👉 [最新リリースはこちら](https://github.com/AlchemistYOHEY/LongMixMusicSplitter/releases/latest)  
+👉 **最新リリース**: https://github.com/AlchemistYOHEY/LongMixMusicSplitter/releases/latest
 
 ---
 
 ## 謝辞
 このツールのコード生成には **ChatGPT** を活用しました。  
-要件定義・調整・テストは **Alchemist YOHEY** が行っています。  
+要件定義・調整・テストは **Alchemist YOHEY** が実施。
 
 ---
 
-# English Explanation
+# English
 
 ## Overview
-Apple iCloud Music requirements:  
-- File size under 200MB  
-- Bitrate above 96kbps  
-- Recommended: AAC / 44.1kHz / stereo  
+Apple iCloud Music requirements:
+- File size under 200MB
+- Bitrate above 96kbps
+- Recommended: AAC / 44.1kHz / stereo
 
-If an audio file (e.g., a long party mix) does not meet these requirements, it won’t upload to iCloud and thus won’t sync to iPhone or Mac.  
-This tool automatically converts and splits audio to meet those requirements.  
+If a long mix doesn’t meet these, it won’t upload to iCloud and won’t sync to iPhone/Mac. This tool **automatically converts and splits** audio to meet the requirements.
 
-⚠️ Note: This tool is **Mac only**; it will not run on Windows.  
-Disclaimer: **This project is not affiliated with, endorsed by, or sponsored by Apple Inc.**  
-“Apple”, “iCloud”, “iPhone”, and “Mac” are trademarks of Apple Inc., used here for descriptive purposes only.  
+> Note: **macOS only**.  
+> Disclaimer: **Not affiliated with Apple Inc.**  
+> “Apple”, “iCloud”, “iPhone”, and “Mac” are trademarks of Apple Inc., used for descriptive purposes only.
 
 ---
 
@@ -116,66 +102,56 @@ Disclaimer: **This project is not affiliated with, endorsed by, or sponsored by 
 - `input/` : put audio files here  
 - `longmix_music_splitter.py` : main script  
 - `output/` : converted files appear here  
-- `README.md` : this document  
+- `README.txt` : plain text for end users  
+- `README.md` : this Markdown  
 - `run.command` : launcher (double-click)  
 
 ---
 
 ## Usage
-1. **Double-click run.command** → Terminal opens.  
+1. **Double-click `run.command`** → Terminal opens.
 
    ### Gatekeeper warning on first launch
-   Since this tool is not code-signed, the first double-click may show  
-   “run.command can’t be opened” with a warning.  
+   Since the app is unsigned, macOS may show “can’t be opened”.  
+   Allow it:
+   a)  > System Settings > Privacy & Security  
+   b) At the bottom, “run.command was blocked” → **Open Anyway**  
+   c) In the confirmation dialog, **Open**  
+   → From the second run onwards, double-click works normally.
 
-   If so, please allow it as follows:  
-   a) Go to  > System Settings > Privacy & Security  
-   b) At the bottom, you will see “run.command was blocked” → Click [Open Anyway]  
-   c) In the confirmation dialog, click [Open]  
-   → From the second time onward, you can simply double-click to run.  
+2. **If ffmpeg / ffprobe are missing**  
+   Prompt: “Install now? (y/N)”  
+   - `y` + Enter → Installs Homebrew and ffmpeg automatically  
+   - `N` → Exit (manual `brew install ffmpeg` required)
 
-2. **If ffmpeg / ffprobe are missing, you’ll be prompted:**  
-   “Install now? (y/N)”  
-   - y + Enter → Automatically installs Homebrew and ffmpeg  
-   - N → Exit (you’ll need `brew install ffmpeg` manually)  
-
-3. **Put audio into input/ and run again**  
-   → `.m4a` files appear in output/.  
+3. **Put audio into `input/` and run again** → `.m4a` files appear in `output/`.
 
 ---
 
 ## Features
 - Output: AAC `.m4a` / 44.1kHz / stereo  
-- Size: Automatically kept under 200MB (minimum 112kbps)  
-- Splitting:  
-  - Single file if <2h  
-  - If ≥2h, split into ~90min parts (preferring nearby silence, else exact)  
+- Size: kept under 200MB automatically (min 112 kbps)  
+- Splitting:
+  - <2h → single file  
+  - ≥2h → ~90min parts (prefer nearby silence; else hard split)  
 - Metadata/cover art preserved when possible  
-- When split: filenames use `_part1/_part2/...`, titles append “(Part i)”, disc/track set to i/N  
+- When split: filenames `_part1/_part2/...`, titles “(Part i)”, `disc/track = i/N`
 
 ---
 
 ## Comparison with existing tools
-- **Magic Cutter**: Auto-splits using silence detection, but not optimized for iCloud Music size/format restrictions.  
-- **Audacity**: Powerful editor; manual splitting possible but requires user effort and format adjustments.  
-- **Mp3splt**: CLI-based splitter with silence detection; no built-in support for iCloud constraints.  
-- **LongMix Music Splitter for Mac**: Specifically designed to create iCloud-compatible files (<200MB, AAC/44.1kHz/stereo), auto-splitting near 90min silence with metadata preserved.  
-
----
-
-## Flow
-- Double-click → Terminal shows logs  
-- If ffmpeg is missing, prompt y/N → y installs automatically  
-- Logs stream; at the end “Press any key to close…”  
-- input → output workflow (Mac only)  
+- **Magic Cutter**: Auto-splits with silence detection, but not optimized for iCloud size/format limits.  
+- **Audacity**: Powerful editor; manual splitting/format tweaks required.  
+- **Mp3splt**: CLI splitter with silence detection; no iCloud-specific constraints handling.  
+- **LongMix Music Splitter for Mac**: Produces iCloud-ready files (<200MB, AAC/44.1kHz/stereo), auto-splits near ~90min silence, preserves metadata.
 
 ---
 
 ## Download
-👉 [Get the latest release here](https://github.com/AlchemistYOHEY/LongMixMusicSplitter/releases/latest)  
+👉 **Latest release**: https://github.com/AlchemistYOHEY/LongMixMusicSplitter/releases/latest
 
 ---
 
 ## Acknowledgement
-This project was developed with the help of **ChatGPT**.  
-Requirements, adjustments, and testing were done by **Alchemist YOHEY**.  
+Developed with the help of **ChatGPT**.  
+Requirements, adjustments, and testing by **Alchemist YOHEY**.
