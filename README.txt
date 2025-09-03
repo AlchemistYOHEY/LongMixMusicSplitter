@@ -26,7 +26,15 @@ iPhoneやMacに同期されません。本ツールはこの要件を満たす�
 ---------------------------------
 【使い方】
 1) run.command をダブルクリック → ターミナルが起動します。  
-   初回で Gatekeeper で止まる場合は「右クリック > 開く」で許可。
+   【初回起動時の注意（Gatekeeper）】
+本ツールは開発者署名を行っていないため、初回にダブルクリックすると
+「開けませんでした」という警告が出ることがあります。
+その場合は以下の手順で許可してください:
+a)  > システム設定 > プライバシーとセキュリティ を開く
+b) 画面下部に「“run.command” は開けませんでした」と表示されるので、
+   [このまま開く] をクリック
+c) 続けて表示されるダイアログで [開く] を選択
+→ これで次回以降は通常通りダブルクリックで起動できます。
 
 2) ffmpeg / ffprobe が無い場合、質問が出ます:  
    「導入しますか？ (y/N)」  
@@ -103,14 +111,21 @@ Disclaimer: **This project is not affiliated with, endorsed by, or sponsored by 
 ---------------------------------
 [Usage]
 1) Double-click run.command → Terminal opens.  
-   If blocked by Gatekeeper on first launch, use “Right click > Open” to allow.
+   [Gatekeeper warning on first launch]  
+Since this tool is not code-signed, the first double-click may show  
+“run.command can’t be opened” with a warning.  
+If so, please allow it as follows:  
+a) Go to  > System Settings > Privacy & Security  
+b) At the bottom, you will see “run.command was blocked” → Click [Open Anyway]  
+c) In the confirmation dialog, click [Open]  
+→ From the second time onward, you can simply double-click to run.
 
 2) If ffmpeg / ffprobe are missing, you’ll be prompted:  
    “Install now? (y/N)”  
      - y + Enter → Automatically installs Homebrew and ffmpeg  
      - N → Exit (you’ll need `brew install ffmpeg` manually)
 
-3) Put audio into input/ and run again → .m4a files appear in output/.
+3) Put audio into input/ and run run.command again → .m4a files will appear in output/.
 
 ---------------------------------
 [Features]
