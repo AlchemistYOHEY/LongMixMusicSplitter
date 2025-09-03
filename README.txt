@@ -1,4 +1,5 @@
 LongMix Music Splitter for Mac  by Alchemist YOHEY
+Version: v1.2.2
 ---------------------------------
 
 【概要】
@@ -42,7 +43,7 @@ iPhoneやMacに同期されません。本ツールはこの要件を満たす�
 【仕様】
 - 出力: AAC .m4a / 44.1kHz / ステレオ
 - サイズ: 自動で 200MB 未満（下限112kbps）
-- 分割: 2時間未満=単一、2時間以上=約90分単位（無音優先、無ければ強制）
+- 分割: 2時間未満=単一、2時間以上=約90分（近傍無音を優先、無ければ強制）
 - メタデータ/アートワーク保持（可能な範囲）
 - 分割時: _part1/_part2/... 付与、title に (Part i)、disc/track に i/N
 
@@ -65,6 +66,9 @@ https://github.com/AlchemistYOHEY/LongMixMusicSplitter/releases/latest
 ==============================
 English
 ==============================
+
+LongMix Music Splitter for Mac  by Alchemist YOHEY
+Version: v1.2.2
 
 [Overview]
 - iCloud limits: <200MB / >96kbps / recommended AAC 44.1kHz stereo
