@@ -2,27 +2,23 @@
 # -*- coding: utf-8 -*-
 
 # =========================================================
-# iCloud Encoder
+# LongMix Music Splitter for Mac
 # Author : Alchemist YOHEY
-# Version: 1.1.0
+# Version: 1.2.2
 #
 # 仕様:
-#  - 44.1kHz / AAC / Stereo 固定
-#  - 目標 200MB 未満（下限 112kbps）
+#  - 出力: 44.1kHz / AAC / Stereo（.m4a, ipodコンテナ）
+#  - 目標 200MB 未満（下限 112kbps、上限 384kbps）
 #  - 分割: 2時間未満は単一、2時間以上は「90分間隔」で可変パート分割
-#          各ターゲット付近(±45s)で無音を探し、無ければキッカリ
+#          各ターゲット付近(±45s)で無音を優先、無ければキッカリ
 #  - 分割時は *_part1.m4a, *_part2.m4a, ... と連番
-#  - 分割時のみ metadata を部分的に上書き:
-#      * title: 「元タイトル (Part i)」
-#      * disc : 「i/N」
-#      * track: 「i/N」
-#    ※ album/artist 等は -map_metadata 0 で継承
-#  - 入出力は同フォルダ内の input/ と output/
+#    さらに title に (Part i)、disc/track に i/N を付与（元タグは継承）
+#  - 入出力はスクリプトと同階層の input/ と output/
 # =========================================================
 
-APP_NAME = "LongMix Music Splitter for Mac"
-AUTHOR     = "Alchemist YOHEY"
-VERSION = "1.2.0"
+APP_NAME  = "LongMix Music Splitter for Mac"
+AUTHOR    = "Alchemist YOHEY"
+VERSION   = "v1.2.2"   # ← 以後はここだけ更新
 
 import subprocess, json, re, math
 from pathlib import Path
@@ -139,14 +135,12 @@ def encode_segment(
         "-movflags","+faststart",
         "-f","ipod",
     ]
-    # 上書きメタデータは -map_metadata 0 の後に並べる
     if title_override:
         cmd += ["-metadata", f"title={title_override}"]
     if disc_value:
         cmd += ["-metadata", f"disc={disc_value}"]
     if track_value:
         cmd += ["-metadata", f"track={track_value}"]
-
     if copy_pic:
         cmd += ["-map","0:v:0?","-c:v","copy","-disposition:v:0","attached_pic"]
 
@@ -210,7 +204,6 @@ def compute_splits(dur: float, infile: Path) -> List[float]:
         if target >= dur - 1.0:
             break
         s = detect_silence_near(infile, target, SILENCE_WINDOW_SEC) or target
-        # 連続・重複を避ける
         if splits and abs(s - splits[-1]) < 1.0:
             continue
         splits.append(max(1.0, min(s, dur-1.0)))
@@ -239,8 +232,10 @@ def process_file(src: Path):
             length = cuts[1] - cuts[0]
             kbps   = choose_kbps(length, TARGET_MAX_BYTES, src_kbps)
             out    = OUT_DIR / f"{base}.m4a"
-            encode_segment(src, cuts[0], length, out, kbps, pic, title_override=None, disc_value=None, track_value=None)
-            kbps   = ensure_under_target(src, cuts[0], length, out, kbps, pic, title_override=None, disc_value=None, track_value=None)
+            encode_segment(src, cuts[0], length, out, kbps, pic,
+                           title_override=None, disc_value=None, track_value=None)
+            kbps   = ensure_under_target(src, cuts[0], length, out, kbps, pic,
+                                         title_override=None, disc_value=None, track_value=None)
             print(f"[OK] {out}  {kbps}kbps  {out.stat().st_size/1024/1024:.1f}MB  ({length/60:.1f}分)")
         else:
             # 複数パート
@@ -277,7 +272,9 @@ def check_fftools() -> bool:
         return False
 
 def main():
-    print(f"{APP_NAME} v{VERSION}  by {AUTHOR}\n")
+    print(f"=== {APP_NAME} by {AUTHOR} ===")
+    print(f"{APP_NAME} {VERSION}  by {AUTHOR}\n")
+
     if not check_fftools():
         print("[NG] ffmpeg / ffprobe が見つかりません。")
         print("     Homebrew があれば:  brew install ffmpeg")
