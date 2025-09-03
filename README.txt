@@ -61,6 +61,10 @@ iPhoneやMacに同期されません。本ツールはこの要件を満たす�
 
 ---------------------------------
 Author: Alchemist YOHEY
+---------------------------------
+【ダウンロード】
+最新バージョンはこちらから取得できます:  
+👉 [LongMix Music Splitter for Mac – Releases](https://github.com/AlchemistYOHEY/LongMixMusicSplitter/releases/latest)
 
 
 ==============================
@@ -127,3 +131,7 @@ Disclaimer: **This project is not affiliated with, endorsed by, or sponsored by 
 
 ---------------------------------
 Author: Alchemist YOHEY
+---------------------------------
+## Download
+Get the latest version here:  
+👉 [LongMix Music Splitter for Mac – Releases](https://github.com/AlchemistYOHEY/LongMixMusicSplitter/releases/latest)
